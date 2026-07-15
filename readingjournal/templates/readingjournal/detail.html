@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ book.title }}</title>
+</head>
+<body>
+    <h1>{{ book.title }}</h1>
+    <a href="{% url 'readingjournal:index' %}">Back</a>
+    {% if user == book.user %}
+        <a href="{% url 'readingjournal:edit_book' book.id %}">Edit</a>
+        <a href="{% url 'readingjournal:delete_book' book.id %}">Delete</a>
+    {% endif %}
+
+    <ul>
+        <li>Author: {{ book.author }}</li>
+        <li>Finished: {{ book.finished }}</li>
+        <li>Notes: {{ book.notes }}</li>
+    </ul>
+
+    <h2>Comments</h2>
+    <h2>Add a comment</h2>
+    <form action="{% url 'readingjournal:comment' book.id %}" method="post" onsubmit="return validateComment()">
+        {% csrf_token %}
+        <textarea id="comment" name="comment" rows="4" cols="40"></textarea><br>
+        <input type="submit" value="Add comment">
+    </form>
+<!-- Flaw 3: A04 Insecure Design
+    <script type="text/javascript">
+    function validateComment()
+    {
+    var comment = document.getElementById("comment").value;
+    if (comment==null || comment=="") {
+        alert("Comment cannot be empty");
+        return false;
+    }
+    if (comment.length > 1000) {
+        alert("Comment cannot be more than 1000 characters");
+        return false;
+    }
+    return true
+    }
+    </script> -->
+
+    <ul>
+    {% for comment in book.comment_set.all %}
+        <li>{{ comment.text }} | commented by {{ comment.user.username }}
+        </li>
+    {% empty %}
+        <li>No comments yet.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

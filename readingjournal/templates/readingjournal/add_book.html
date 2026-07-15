@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Book</title>
+</head>
+<body>
+
+<h1>Add a Book</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Add Book</button>
+</form>
+
+<p>
+    <a href="{% url 'readingjournal:index' %}">Back</a>
+</p>
+
+</body>
+</html>

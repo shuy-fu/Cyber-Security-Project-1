@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Books</title>
+</head>
+<body>
+    <h1>All Books</h1>
+
+    <p>
+        <a href="{% url 'readingjournal:index' %}">Home</a>
+    </p>
+
+    {% if books %}
+    <ul>
+    {% for book in books %}
+        <li>
+            <a href="{% url 'readingjournal:detail' book.id %}">
+                {{ book.title }}
+            </a>
+            by {{ book.author }} | read by {{ book.user.username }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No books yet.</p>
+{% endif %}
+
+</body>
+</html>

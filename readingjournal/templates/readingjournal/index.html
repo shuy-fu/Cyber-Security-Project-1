@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Reading Journal</title>
+    </head>
+
+    <body>
+		<h1>Books</h1>
+        {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+        </form>
+
+        <ul>
+            <li><a href="{% url 'readingjournal:my_books' %}">My Books</a></li>
+            <li><a href="{% url 'readingjournal:add_book' %}">Add Book</a></li>
+        </ul>
+
+        {% else %}
+            <a href="{% url 'login' %}">Log in</a>
+            <a href="{% url 'readingjournal:register' %}">Register</a>
+        {% endif %}
+
+        <h2>Latest books</h2>
+        {% if latest_book_list %}
+            <ul>
+            {% for book in latest_book_list %}
+                <li><a href="{% url 'readingjournal:detail' book.id %}">{{ book.title }}</a>
+                    by {{ book.author }} | read by {{ book.user.username }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No books are available.</p>
+        {% endif %}
+        <a href="{% url 'readingjournal:all_books' %}">View all books</a>
+
+
+    </body>
+</html>
