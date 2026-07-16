@@ -15,4 +15,5 @@ class Book(models.Model):
 class Comment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField(max_length=1000)
+    text = models.TextField()   #Flaw 3
+    #text = models.TextField(max_length=1000) #Flaw 3 fix

@@ -49,9 +49,9 @@ def add_book(request):
 
 #Flaw 4: A05 Security Misconfiguration
 def detail(request, book_id):
-    #try:
+    #try:   #Flaw 4 fix
     book = Book.objects.get(pk=book_id)
-    #except Book.DoesNotExist:
+    #except Book.DoesNotExist:  #Flaw 4 fix
     #    return HttpResponse("Book does not exist", status=404)
     return render(request, 'readingjournal/detail.html', {'book': book})
 
@@ -70,10 +70,10 @@ def edit_book(request, book_id):
     {"form": form, "book": book})
 
 #Flaw 1: A01 Broken Access Control
-#@login_required
+#@login_required #Flaw 1 fix
 def delete_book(request, book_id):
-#    book = get_object_or_404(Book, pk=book_id, user=request.user)
-    book = get_object_or_404(Book, pk=book_id)
+    #book = get_object_or_404(Book, pk=book_id, user=request.user) #Flaw 1 fix
+    book = get_object_or_404(Book, pk=book_id) #Flaw 1
     if request.method == "POST":
         book.delete()
         return redirect("readingjournal:my_books")
@@ -94,19 +94,19 @@ def comment(request, book_id):
     if request.method == "POST":
         text = request.POST["comment"]
 #Flaw 2: A03 Injection
-        #Comment.objects.create(
+        #Comment.objects.create(    #Flaw 2 fix
         #    book=book,
         #    user=request.user,
         #    text=text
         #)
 
         #Flaw 3: A04 Insecure Design
-        #if not text.strip():
+        #if not text.strip():   #Flaw 3 fix
         #    return HttpResponse("Comment cannot be empty.", status=400)
-        #if len(text) > 1000:
+        #if len(text) > 1000:   #Flaw 3 fix
         #    return HttpResponse("Comment is too long.", status=400)
         
-        with connection.cursor() as cursor:
+        with connection.cursor() as cursor: #Flaw 2
             cursor.execute(f""" INSERT INTO readingjournal_comment (book_id, user_id, text)
                            VALUES ({book.id}, {request.user.id}, '{text}')""")
 

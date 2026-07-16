@@ -24,8 +24,8 @@ SECRET_KEY = 'django-insecure-ueshf60ufvcg#vlk7e*zg1*alcd@z@j5&7!&imi0bv=gk9&$96
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #Flaw 4: A05 Security Misconfiguration
-#DEBUG = True
-DEBUG = False
+DEBUG = True    #Flaw 4
+#DEBUG = False  #Flaw 4 fix
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -88,7 +88,7 @@ DATABASES = {
 
 #Flaw 5: A07 Identification and Authentication Failures
 AUTH_PASSWORD_VALIDATORS = [
-#    {
+#    {  #Flaw 5 fix
 #        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
 #    },
 #    {
