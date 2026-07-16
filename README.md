@@ -5,7 +5,7 @@ LINK: https://github.com/shuy-fu/Cyber-Security-Project-1
 
 
 FLAW1: 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/views.py#L72 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/views.py#L72 
 A01 Broken Access Control:
 OWASP describes this flaw as users being able to act outside of their intended permissions. In the vulnerable version of my app, anyone could delete any book by altering the URL. When the delete URL of a book is accessed, the app doesn’t require a user to be logged in, nor does it check if the user matches the book’s owner. As an example, in screenshot ‘flaw-1-before-1.png’, I have accessed the delete page of the book with an ID 6 without logging in. 
 
@@ -13,7 +13,7 @@ To fix this issue, I added a line that requires users to log in to be able to de
 
 
 FLAW2: 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/views.py#L96 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/views.py#L96 
 A03 Injection: 
 In the vulnerable version of my app, the commenting feature allows user-supplied input to be interpreted as part of a SQL command instead of treating it as regular comment data. A raw SQL query that uses f-strings will allow a user to insert malicious code straight into the SQL command without it being validated. To demonstrate this vulnerability, I tested whether a single quotation mark in the comment text field cause a SQL query. As shown in screenshot ‘flaw-2-before-1.png’, a SQL operational error was generated. This shows that the single quotation mark was interpreted as part of the SQL command instead of a regular text line for a comment. This would allow SQL injection attacks. 
 
@@ -21,9 +21,9 @@ To fix this vulnerability, I would not use a raw SQL query. Instead, Django ORM 
 
  
 FLAW3:  
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/views.py#L103 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/models.py#L18 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/templates/readingjournal/detail.html#L27 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/views.py#L103 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/models.py#L18 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/templates/readingjournal/detail.html#L27 
 A04 Insecure Design: 
 The third flaw is also related to user input and limiting what one is able to insert into the comment field. In the vulnerable version, a user is able to submit an empty comment or a comment without maximum length. An extremely long comment could for example, lead to a Denial of Service attack. In the screenshot ‘flaw-3-before-1.png’ we can see both an empty comment and part of a massively long comment. 
 
@@ -31,8 +31,8 @@ The OWASP list states that an insecure design vulnerability shoul be prevented b
 
 
 FLAW4:  
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/6527dc6c32b0724d5ac7b02d71828f2c2f664b91/mysite/settings.py#L26 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/a74db196035ff5aef038d329de9af8b38aa3cb9d/readingjournal/views.py#L50 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/mysite/settings.py#L26 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/readingjournal/views.py#L50 
 A05 Security Misconfiguration: 
 This vulnerability has to do with revealing overly informative error messages to users.  In the vulnerable version of my app, if a user were to change the book ID of the URL to a non-existing book ID number, an error page will be generated. Because my app contains ‘DEBUG = True’, a detailed error page will be displayed. This page would reveal the app’s internal structure and possibly allow an attacker to use this information for malicious intent. In screenshot ‘flaw-4-before-1.png’, we can see part of the error page. 
 
@@ -40,7 +40,7 @@ In order to fix this, we need to change ‘DEBUG’ INTO ‘False’ and I have 
 
 
 FLAW5: 
-https://github.com/shuy-fu/Cyber-Security-Project-1/blob/6527dc6c32b0724d5ac7b02d71828f2c2f664b91/mysite/settings.py#L89 
+https://github.com/shuy-fu/Cyber-Security-Project-1/blob/d1400db68f78ab322e9c828bd449996896506a2e/mysite/settings.py#L89 
 A07 Identification and Authentication Failures: 
 Finally, we have a vulnerable feature that OWASP describes as an app permitting default, weak, or well-known passwords, such as ‘Password1’ or ‘admin/admin’. In my app, the registration form is generated using Django’s ‘UserCreationForm()’. This form follows the validation rules that are set in settings.py ‘AUTH_PASSWORD_VALIDATORS’. In this vulnerable version, norules were set, so this allows users to register with weak passwords. The screenshot ‘flaw-5-before-1.png’ shows the registration form without rules. 
 
